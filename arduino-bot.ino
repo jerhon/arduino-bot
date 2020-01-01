@@ -1,7 +1,10 @@
-#include "Car.h"
+
 #include "Pins.h"
+#include "Car.h"
+#include "Danceoff.h"
 
 Car *car;
+Danceoff *tinyDancer;
 
 void setup()
 {
@@ -12,33 +15,10 @@ void setup()
     car->init();
     car->stop();
 
+    tinyDancer = new Danceoff(car);
+
     // Setup Serial
     Serial.begin(9600);
-}
-
-void dance()
-{
-    // TODO: Add a method to make the robot do a little dance w/
-    //
-    // car->moveForward();
-    // car->moveBackward();
-    // car->turnLeft();
-    // car->turnRight();
-    // car->stop();
-    // delay(milliseconds)
-    car->setSpeed(100);
-
-    for (int i = 0; i < 5; i++) {
-        car->moveForward();
-        delay(1000);
-        car->turnLeft();
-        delay(1000);
-        car->moveBackward();
-        delay(1000);
-        car->turnRight();
-        delay(1000);
-    }
-    car->stop();
 }
 
 void serialControl()
@@ -66,7 +46,7 @@ void serialControl()
             car->stop();
             break;
         case 'D':
-            dance();
+            //dance();
             break;
         }
     }
@@ -74,5 +54,9 @@ void serialControl()
 
 void loop()
 {
-    dance();
+    tinyDancer->dance0();
+
+    while (true) {
+        delay(500);
+    }
 }
