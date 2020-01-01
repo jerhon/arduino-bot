@@ -17,27 +17,41 @@ void setup()
 
     tinyDancer = new Danceoff(car);
 
-    // Setup Serial
+    // I have a bluetooth card which is wired to send data over the serial port.
     Serial.begin(9600);
+}
+
+void allDances()
+{
+    for (int i = 0; i < tinyDancer->length(); i++)
+    {
+        tinyDancer->dance(i);
+    }
 }
 
 void serialControl()
 {
     if (Serial.available())
     {
-        unsigned char direction = Serial.read();
-
+        unsigned char command = Serial.read();
         car->setSpeed(100);
-        switch (direction)
+        switch (command)
         {
         case 'F':
             car->moveForward();
+            delay(1000);
+            car->stop();
+
             break;
         case 'B':
             car->moveBackward();
+            delay(1000);
+            car->stop();
+
             break;
         case 'L':
             car->turnLeft();
+
             break;
         case 'R':
             car->turnRight();
@@ -45,8 +59,22 @@ void serialControl()
         case 'S':
             car->stop();
             break;
-        case 'D':
-            //dance();
+
+        // TODO: store this in some sort of dictionary, and get rid of the switch
+        case '0':
+            tinyDancer->dance0();
+            break;
+        case '1':
+            tinyDancer->dance1();
+            break;
+        case '2':
+            tinyDancer->dance2();
+            break;
+        case '3':
+            tinyDancer->dance3();
+            break;
+        case '4':
+            allDances();
             break;
         }
     }
@@ -54,9 +82,5 @@ void serialControl()
 
 void loop()
 {
-    tinyDancer->dance0();
-
-    while (true) {
-        delay(500);
-    }
+    serialControl();
 }
