@@ -14,7 +14,33 @@
             "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "defines": ["USBCON"]
+            "defines": [
+                "USBCON",
+                "ARDUINO=100",
+                "__AVR__"
+            ]
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "/opt/arduino-1.8.10/hardware/arduino/avr/**",
+                "/opt/arduino-1.8.10/tools/**",
+                "/opt/arduino-1.8.10/hardware/tools/avr/avr/include",
+                "~/Arduino/libraries/Servo/src/",
+                "~/Arduino/libraries/HCSR04/src/",
+                "~/Arduino/libraries/NewPing/src/"
+            ],
+            "forcedInclude": [
+                "/opt/arduino-1.8.10/hardware/arduino/avr/cores/arduino/Arduino.h"
+            ],
+            "intelliSenseMode": "gcc-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "defines": [
+                "USBCON",
+                "ARDUINO=100",
+                "__AVR__"
+            ]
         }
     ],
     "version": 4
