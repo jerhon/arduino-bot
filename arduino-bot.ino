@@ -2,9 +2,15 @@
 #include "Pins.h"
 #include "Car.h"
 #include "Danceoff.h"
+#include "SG90Servo.h"
+#include "SR04DistanceSensor.h"
+#include "ObstracleAvoidanceCar.h"
 
 Car *car;
 Danceoff *tinyDancer;
+SG90Servo *distanceServo;
+SR04DistanceSensor *distanceSensor;
+ObstacleAvoidanceCar *traveller;
 
 void setup()
 {
@@ -15,10 +21,15 @@ void setup()
     car->init();
     car->stop();
 
+    distanceServo = new SG90Servo(SV_ANGLE);
+    distanceSensor = new SR04DistanceSensor(US_TRIG, US_ECHO);
+
     tinyDancer = new Danceoff(car);
+    traveller = new ObstacleAvoidanceCar(car, distanceServo, distanceSensor);
 
     // I have a bluetooth card which is wired to send data over the serial port.
     Serial.begin(9600);
+    Serial.println("Starting Traveller.");
 }
 
 void allDances()
@@ -80,7 +91,9 @@ void serialControl()
     }
 }
 
+bool start = true;
+
 void loop()
 {
-    serialControl();
+    traveller->Drive();
 }
