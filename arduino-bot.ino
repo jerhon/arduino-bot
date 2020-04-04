@@ -4,15 +4,17 @@
 #include "Danceoff.h"
 #include "SG90Servo.h"
 #include "SR04DistanceSensor.h"
-#include "ObstracleAvoidanceCar.h"
+#include "ObstacleAvoidanceCar.h"
+#include "Legovator.h"
 
 Car *car;
 Danceoff *tinyDancer;
 SG90Servo *distanceServo;
 SR04DistanceSensor *distanceSensor;
 ObstacleAvoidanceCar *traveller;
+Legovator *legovator;
 
-void setup()
+void setup_car()
 {
     // Setup the Car
     MotorController *rightMotor = new MotorController(MC_ENA, MC_IN1, MC_IN2);
@@ -30,6 +32,19 @@ void setup()
     // I have a bluetooth card which is wired to send data over the serial port.
     Serial.begin(9600);
     Serial.println("Starting Traveller.");
+}
+
+void setup_legovator() {
+    
+    MotorController *pulley = new MotorController(MC_ENB, MC_IN3, MC_IN4);
+    Button *upButton = new Button(4);
+    Button *downButton = new Button(5);
+
+    legovator = new Legovator(upButton, downButton, pulley);
+}
+
+void setup() {
+    setup_legovator();
 }
 
 void allDances()
@@ -95,5 +110,5 @@ bool start = true;
 
 void loop()
 {
-    traveller->Drive();
+    legovator->doStep();
 }
